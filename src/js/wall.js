@@ -47,16 +47,6 @@ const getUserData = () => {
 
           const contentPost = document.getElementById('content-post').value;
           if (contentPost !== '' && contentPost !== ' ') {
-            if (user.photoURL === null) {
-              userPhotoDefault = '../images/profile-photo.jpg';
-            } else {
-              userPhotoDefault = user.photoURL;
-            }
-            if (user.displayName === null) {
-              currentName = user.email;
-            } else {
-              currentName = user.displayName;
-            }
             /* Se crea en firestore la collección de Post como un objeto con el método add y se crean las propiedades */
             db.collection('post').add({
               userID: user.uid,
@@ -100,58 +90,64 @@ const drawPost = () => {
                 result +=
                   ` <div class="card mb-4 border-secondary">
                   <div class="card-body">
-                    <div class="col-10 col-md-10 pl-0">
-                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <strong>${post.data().userName}</strong>
-                        <p>${post.data().time}</p>
-                      </button>
-                    </div>
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      <strong>${post.data().userName}</strong>
+                      <p>${post.data().time}</p>
+                    </button>
                     <div class="card-header small-font">
                       <div class="container">
                         <div class="row">
                           <div class="col-md-8">
-                            <div class="col-md-2 px-0 px-md-2 col-2">
-                            </div>
-                            <div class="col-10 col-md-10 pl-0">
+                            <div class="row">
+                              <div class="col-md-2 px-0 px-md-2 col-2">
+                              </div>
+                              <div class="col-10 col-md-10 pl-0">
+                              </div>
+                              <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                                 <p class="card-text" id="${post.id}">${post.data().content}</p>
+                              </div>
+                            </div>
+                            <div class="col-md-4 text-md-right text-center">
+                              <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="deletePost('${post.id}')">
+                                <i class="far fa-trash-alt"></i> Borrar</button>
+                              <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="createUpdateArea('${post.id}')">
+                                <i class="ml-3 fas fa-pencil-alt"></i> Editar</button>
                             </div>
                           </div>
-                        </div>
-                        <div class="col-md-4 text-md-right text-center">
-                          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="deletePost('${post.id}')">
-                            <i class="far fa-trash-alt"></i> Delete</button>
-                          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="createUpdateArea('${post.id}')">
-                            <i class="ml-3 fas fa-pencil-alt"></i> Edit</button>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>`;
+                </div>
+              `;
               } else {
                 result +=
-                  `<div class="card mb-4 border-secondary">
+                  ` <div class="card mb-4 border-secondary">
                   <div class="card-body">
-                    <div class="col-10 col-md-10 pl-0">
-                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <strong>${post.data().userName}</strong>
-                        <p>${post.data().time}</p>
-                      </button>
-                    </div>
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      <strong>${post.data().userName}</strong>
+                      <p>${post.data().time}</p>
+                    </button>
                     <div class="card-header small-font">
                       <div class="container">
                         <div class="row">
                           <div class="col-md-8">
-                            <div class="col-md-2 px-0 px-md-2 col-2">
-                            </div>
-                            <div class="col-10 col-md-10 pl-0">
+                            <div class="row">
+                              <div class="col-md-2 px-0 px-md-2 col-2">
+                              </div>
+                              <div class="col-10 col-md-10 pl-0">
+                              </div>
+                              <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                                 <p class="card-text" id="${post.id}">${post.data().content}</p>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>`;
+                </div>
+              `;
               }
             });
             document.getElementById('allList-of-post').innerHTML = result;
